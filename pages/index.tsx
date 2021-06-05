@@ -84,7 +84,7 @@ export default function Home() {
                                     ]}
                                 >
                                     <Input
-                                        placeholder="https://my-super-long-link.com/blah-blah-blah-blah-blah-blah-blah-blah-blah-blah"
+                                        placeholder="https://my-super-long-link.com/"
                                         size="large"
                                     />
                                 </Form.Item>

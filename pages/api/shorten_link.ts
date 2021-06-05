@@ -1,14 +1,17 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { MongoClient } from "mongodb";
 import { NowRequest, NowResponse } from "@vercel/node";
 
 let cachedDb;
 
+// MONGO DB CONNECTION URI
+const MONGODB_URI=""
+
+
 async function connectToDatabase() {
     if (cachedDb) {
         return cachedDb;
     }
-    const client = new MongoClient(process.env.MONGODB_URI, {
+    const client = new MongoClient(MONGODB_URI, {
         useNewUrlParser: true,
     });
 
