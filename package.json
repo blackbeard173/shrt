@@ -9,11 +9,17 @@
   },
   "dependencies": {
     "@prisma/client": "^4.3.1",
+    "@trpc/client": "^9.27.2",
+    "@trpc/next": "^9.27.2",
+    "@trpc/react": "^9.27.2",
+    "@trpc/server": "^9.27.2",
     "axios": "^0.27.2",
     "mongodb": "^4.9.1",
     "next": "^12.2.5",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-query": "^3.39.2",
+    "zod": "^3.18.0"
   },
   "devDependencies": {
     "@types/mongodb": "^4.0.6",
