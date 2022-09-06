@@ -1,117 +1,33 @@
+import type { NextPage } from "next";
+import dynamic from "next/dynamic";
 import Head from "next/head";
-import { useState } from "react";
-import axios, { AxiosError } from "axios";
-import { Alert, Button, Form, Input, Layout, Typography } from "antd";
-import styles from "../styles/Home.module.css";
+import { Suspense } from "react";
 
-const { Header, Content, Footer } = Layout;
-const { Title } = Typography;
+const CreateLink = dynamic(() => import("../components/CreateLink"), {
+  ssr: false,
+});
 
-type ShortenLinkResponse = {
-  short_link: string;
-};
-
-type ShortenLinkError = {
-  error: string;
-  error_description: string;
-};
-
-type FormValues = {
-  link: string;
-};
-
-export default function Home() {
-  const [status, setStatus] = useState<"initial" | "error" | "success">(
-    "initial"
-  );
-  const [message, setMessage] = useState("");
-  const [form] = Form.useForm();
-
-  const onFinish = async ({ link }: FormValues) => {
-    try {
-      const response = await axios.post<ShortenLinkResponse>(
-        "/api/shorten_link",
-        { link }
-      );
-      setStatus("success");
-      setMessage(response.data?.short_link);
-    } catch (e) {
-      const error = e as AxiosError<ShortenLinkError>;
-      setStatus("error");
-      setMessage(
-        error.response?.data?.error_description || "Something went wrong!"
-      );
-    }
-  };
-
-  const onFinishedFailed = () => {
-    setStatus("error");
-    const error = form.getFieldError("link").join(" ");
-    setMessage(error);
-  };
-
+const Home: NextPage = () => {
   return (
-    <Layout>
+    <>
       <Head>
-        <title>Shrt</title>
-        <link rel="icon" href="/icon.ico" />
+        <title>Onix</title>
+        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header>
-        <div className={styles.logo}>
-          <link rel="icon" href="/shrt.ico" />
+
+      <div className="flex flex-col items-center justify-center min-h-screen mx-auto text-gray-100 bg-gray-900">
+        <div className="md:w-1/2">
+          <Suspense>
+            <h1 className="text-6xl font-bold text-center uppercase">Onix</h1>
+            <p className="pt-1 text-center capitalize text-md">
+              a fast link shortener
+            </p>
+            <CreateLink />
+          </Suspense>
         </div>
-      </Header>
-      <Content className={styles.content}>
-        <div className={styles.shortner}>
-          <Title level={5}>Copy &amp; Paste your lengthy link</Title>
-          <Form
-            form={form}
-            onFinish={onFinish}
-            onFinishFailed={onFinishedFailed}
-          >
-            <div className={styles.linkField}>
-              <div className={styles.linkFieldInput}>
-                <Form.Item
-                  name="link"
-                  noStyle
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please paste a correct link",
-                      type: "url",
-                    },
-                  ]}
-                >
-                  <Input
-                    placeholder="https://my-super-long-link.com/"
-                    size="large"
-                  />
-                </Form.Item>
-              </div>
-              <div className={styles.linkFieldButton}>
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    style={{ width: "100%" }}
-                    size="large"
-                  >
-                    Shorten!
-                  </Button>
-                </Form.Item>
-              </div>
-            </div>
-          </Form>
-          {["error", "success"].includes(status) && (
-            <Alert
-              showIcon
-              message={message}
-              type={status as "error" | "success"}
-            />
-          )}
-        </div>
-      </Content>
-      <Footer className={styles.footer}>Shrt &copy; 2021</Footer>
-    </Layout>
+      </div>
+    </>
   );
-}
+};
+
+export default Home;
