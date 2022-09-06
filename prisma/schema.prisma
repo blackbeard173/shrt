@@ -11,3 +11,12 @@ datasource db {
   url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
+
+model ShortLink {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  url       String   @db.VarChar(3000)
+  slug      String   @unique
+
+  @@index([slug])
+}
