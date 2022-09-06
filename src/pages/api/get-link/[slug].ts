@@ -6,8 +6,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const slug = req.query["slug"];
 
   if (!slug || typeof slug !== "string") {
-    res.status(404).json({ message: "please provide a slug" });
-
+    res.statusCode = 404;
+    res.send(JSON.stringify({ message: "please provide a slug" }));
     return;
   }
 
@@ -20,7 +20,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   });
 
   if (!data) {
-    res.status(404).json({ message: "short link not found" });
+    res.statusCode = 404;
+
+    res.send(JSON.stringify({ message: "slug not found" }));
 
     return;
   }
@@ -29,7 +31,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Cache-Control", "s-maxage=1000000000, stale-while-revalidate");
 
-  res.json(data);
-  
-  return;
+  return res.json(data);
 };
